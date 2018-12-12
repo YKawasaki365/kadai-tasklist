@@ -8,6 +8,7 @@ use App\Task;    // 追加
 
 class TasksController extends Controller
 {
+
     // getでmessages/にアクセスされた場合の「一覧表示処理」
     public function index()
     {
