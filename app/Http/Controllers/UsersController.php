@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\User; // 追加
 
-class UserController extends Controller
+class UsersController extends Controller
 {
     public function index()
     {
@@ -20,9 +20,15 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
+        $individualtasks = $user->individualtasks()->orderBy('created_at', 'desc')->paginate(10);
 
-        return view('users.show', [
+        $data = [
             'user' => $user,
-        ]);
+            'individualtasks' => $individualtasks,
+        ];
+
+        $data += $this->counts($user);
+
+        return view('users.show', $data);
     }
 }
