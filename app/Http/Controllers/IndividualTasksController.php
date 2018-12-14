@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 class IndividualTasksController extends Controller
 {
     public function index()
+
     {
         $data = [];
         if (\Auth::check()) {
@@ -17,7 +18,7 @@ class IndividualTasksController extends Controller
                 'user' => $user,
                 'individualtasks' => $individualtasks,
             ];
-        }
+    }
         
         return view('welcome', $data);
     }

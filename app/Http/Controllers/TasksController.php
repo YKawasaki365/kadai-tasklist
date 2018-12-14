@@ -9,7 +9,35 @@ use App\Task;    // 追加
 class TasksController extends Controller
 {
 
+/*    // getでmessages/にアクセスされた場合の「一覧表示処理」
+      // show()メソッドみたいになってしまってる。index()メソッドの中身でどうにかする。
+    public function index()
+    {
+        $tasks = Task::find($id);
+        if (\Auth::id() === $task->user_id) {
+        
+        return view('tasks.index', [
+            'tasks' => $tasks,
+        ]);
+        }
+    }
+*/
     // getでmessages/にアクセスされた場合の「一覧表示処理」
+    public function index()
+    {
+        if (\Auth::check()) {
+            $user = \Auth::user();
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('tasks.index', [
+            'tasks' => $tasks,
+            ]);
+        }
+        
+        return view('welcome');
+    }
+
+/*    // getでmessages/にアクセスされた場合の「一覧表示処理」
     public function index()
     {
         $tasks = Task::all();
@@ -18,6 +46,7 @@ class TasksController extends Controller
             'tasks' => $tasks,
         ]);
     }
+*/
 
     // getでmessages/createにアクセスされた場合の「新規登録画面表示処理」
     public function create()
@@ -28,6 +57,7 @@ class TasksController extends Controller
             'task' => $task,
         ]);
     }
+
     // postでmessages/にアクセスされた場合の「新規登録処理」
     public function store(Request $request)
     {
@@ -36,13 +66,19 @@ class TasksController extends Controller
             'content' => 'required|max:191',
         ]);
         
-        $task = new Task;
+        $request->user()->tasks()->create([
+            'content' => $request->content,
+             'status' => $request->status,
+        ]);
+        
+        return redirect('/');
+    }
+        
+/*        $task = new Task;
         $task->status = $request->status;     // 追加
         $task->content = $request->content;
         $task->save();
-
-        return redirect('/');
-    }
+*/
     
     // getでmessages/idにアクセスされた場合の「取得表示処理」
     public function show($id)
@@ -84,9 +120,23 @@ class TasksController extends Controller
     public function destroy($id)
     {
         $task = Task::find($id);
+        
+        if (\Auth::id() === $task->user_id) {
+            $task->delete();
+        }
+
+        return redirect('/');
+    }
+    
+}
+
+/*    public function destroy($id)
+    {
+        $task = Task::find($id);
         $task->delete();
 
         return redirect('/');
     }
     
 }
+*/
