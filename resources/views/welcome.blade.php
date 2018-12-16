@@ -5,28 +5,12 @@
         <div class="row">
             <aside class="col-sm-4">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">{{ Auth::user()->name }}</h3>
-                    </div>
                     <div class="card-body">
-                        <img class="media-object rounded img-fluid" src="{{ Gravatar::src(Auth::user()->email, 500) }}" alt="">
+                        <a href="/tasks">リンク</a>
                     </div>
                 </div>
             </aside>
             <div class="col-sm-8">
-                
-                @if (Auth::id() == $user->id)
-                    {!! Form::open(['route' => 'individualtasks.store']) !!}
-                        <div class="form-group">
-                            {!! Form::textarea('content', old('content'), ['class' => 'form-control', 'rows' => '2']) !!}
-                            {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
-                        </div>
-                    {!! Form::close() !!}
-                @endif
-                
-                @if (count($individualtasks) > 0)
-                    @include('individualtasks.individualtasks', ['individualtasks' => $individualtasks])
-                @endif
             </div>
         </div>
     @else

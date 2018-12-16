@@ -9,19 +9,6 @@ use App\Task;    // 追加
 class TasksController extends Controller
 {
 
-/*    // getでmessages/にアクセスされた場合の「一覧表示処理」
-      // show()メソッドみたいになってしまってる。index()メソッドの中身でどうにかする。
-    public function index()
-    {
-        $tasks = Task::find($id);
-        if (\Auth::id() === $task->user_id) {
-        
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
-        }
-    }
-*/
     // getでmessages/にアクセスされた場合の「一覧表示処理」
     public function index()
     {
@@ -33,20 +20,8 @@ class TasksController extends Controller
             'tasks' => $tasks,
             ]);
         }
-        
         return view('welcome');
     }
-
-/*    // getでmessages/にアクセスされた場合の「一覧表示処理」
-    public function index()
-    {
-        $tasks = Task::all();
-
-        return view('tasks.index', [
-            'tasks' => $tasks,
-        ]);
-    }
-*/
 
     // getでmessages/createにアクセスされた場合の「新規登録画面表示処理」
     public function create()
@@ -73,13 +48,7 @@ class TasksController extends Controller
         
         return redirect('/');
     }
-        
-/*        $task = new Task;
-        $task->status = $request->status;     // 追加
-        $task->content = $request->content;
-        $task->save();
-*/
-    
+
     // getでmessages/idにアクセスされた場合の「取得表示処理」
     public function show($id)
     {
