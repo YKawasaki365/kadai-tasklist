@@ -54,9 +54,13 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
 
+        if (\Auth::id() === $task->user_id) {
         return view('tasks.show', [
             'task' => $task,
         ]);
+        } else {
+            return redirect('/');
+        }
     }
     
     // getでmessages/id/editにアクセスされた場合の「更新画面表示処理」
@@ -64,9 +68,13 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
 
+        if (\Auth::id() === $task->user_id) {
         return view('tasks.edit', [
             'task' => $task,
         ]);
+        } else {
+            return redirect('/');
+        }
     }
 
     // putまたはpatchでmessages/idにアクセスされた場合の「更新処理」
@@ -92,20 +100,9 @@ class TasksController extends Controller
         
         if (\Auth::id() === $task->user_id) {
             $task->delete();
+            return redirect('/');
+        } else {
+            return redirect('/');
         }
-
-        return redirect('/');
     }
-    
 }
-
-/*    public function destroy($id)
-    {
-        $task = Task::find($id);
-        $task->delete();
-
-        return redirect('/');
-    }
-    
-}
-*/
